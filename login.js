@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validateCredentials(username, password) {
-        // Replace with actual API call in production
+       
         return username.length > 0 && password.length > 0;
     }
 
