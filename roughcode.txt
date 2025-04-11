@@ -1,0 +1,110 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <header>
+        <h1>EduLearn</h1>
+        <nav>
+            <ul>
+                <li><a href="./home.html">Home</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#calendar">Calendar</a></li>
+                <li><a href="#progress">Progress Report</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="./login.html" id="login-btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    home
+</body>
+</html> -->
+
+
+
+
+// Function to render the calendar with marked dates for Test or Quiz with event names
+function renderCalendar() {
+    const container = document.getElementById('calendar-container');
+    const eventListContainer = document.getElementById('event-list-container');
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    // Days of the week
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    // Get the first day of the month
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+
+    // Get the number of days in the month
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Event data with dates and event names
+    const events = {
+        5: 'Math Test',
+        8: 'Science Quiz',
+        10: 'History Test',
+        15: 'Math Test',
+        18: 'Programming Quiz',
+        20: 'Physics Test',
+        22: 'Chemistry Quiz'
+    };
+
+    // Create the calendar header
+    let calendarHTML = '<table>';
+    calendarHTML += '<thead><tr>';
+    daysOfWeek.forEach(day => {
+        calendarHTML += `<th>${day}</th>`;
+    });
+    calendarHTML += '</tr></thead>';
+
+    // Create the calendar body
+    let dayCounter = 1;
+    calendarHTML += '<tbody>';
+
+    // Create empty cells before the start of the month
+    let dayOffset = firstDay;
+    while (dayOffset > 0) {
+        calendarHTML += '<td></td>';
+        dayOffset--;
+    }
+
+    // Store events to display on the side panel
+    let eventListHTML = `<h3>Events for ${today.toLocaleString('default', { month: 'long' })} ${currentYear}</h3>`;
+
+    // Days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+        // Check if we need to start a new row
+        if ((i + firstDay - 1) % 7 === 0 && i !== 1) {
+            calendarHTML += '</tr><tr>';
+        }
+
+        let dateClass = ''; // Default no special class
+        let eventText = ''; // Default no event text
+
+        // Check if the day has an event
+        if (events[i]) {
+            dateClass = 'event-day'; // Mark as event day
+            eventText = events[i]; // Set the event name
+            eventListHTML += `<p><strong>${i}</strong>: ${eventText}</p>`; // Add event to the list
+        }
+
+        calendarHTML += `<td class="${dateClass}" title="${eventText}">${i}<br><span class="event-name">${eventText}</span></td>`;
+    }
+
+    calendarHTML += '</tbody></table>';
+    container.innerHTML = calendarHTML;
+
+    // Display the events on the side
+    eventListContainer.innerHTML = eventListHTML;
+}
+
+// Call renderCalendar on page load
+window.onload = renderCalendar // Change to bar chart

@@ -1,0 +1,46 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --error-color: #e74c3c;
+    --success-color: #2ecc71;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.contact-form {
+    display: grid;
+    gap: 15px;
+    max-width: 500px;
+}
+
+.form-group {
+    display: grid;
+    gap: 5px;
+}
+
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.flash-success {
+    color: var(--success-color);
+    padding: 10px;
+    border: 1px solid var(--success-color);
+}
+
+.flash-error {
+    color: var(--error-color);
+    padding: 10px;
+    border: 1px solid var(--error-color);
+}

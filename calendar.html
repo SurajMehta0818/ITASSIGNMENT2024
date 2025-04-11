@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduLearn - Academic Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+ 
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  #calendar-container {
+    max-width: 1200px;
+    margin: 20px auto; 
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-height: auto; 
+}
+
+/* Calendar Dimensions */
+#calendar {
+    height: 500px; 
+    padding: 10px;
+}
+
+    /* Calendar Styling */
+    #calendar {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* Header Styling */
+    .fc-toolbar-title {
+      font-size: 1.5em;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    
+    .fc-button {
+      background-color: #0073e6 !important;
+      border: none !important;
+      text-transform: capitalize;
+      transition: all 0.3s;
+    }
+    
+    .fc-button:hover {
+      background-color: #005bb5 !important;
+      transform: translateY(-2px);
+    }
+    
+    /* Event Styling */
+    .fc-event {
+      cursor: pointer;
+      border-radius: 4px;
+      border: none;
+      font-size: 0.9em;
+      padding: 2px 4px;
+    }
+    
+    /* Event Type Colors */
+    .event-exam {
+      background-color: #e53935;
+      border-left: 3px solid #c62828;
+    }
+    
+    .event-quiz {
+      background-color: #43a047;
+      border-left: 3px solid #2e7d32;
+    }
+    
+    .event-class {
+      background-color: #1e88e5;
+      border-left: 3px solid #0d47a1;
+    }
+    
+    .event-holiday {
+      background-color: #fb8c00;
+      border-left: 3px solid #e65100;
+    }
+    
+    .event-deadline {
+      background-color: #8e24aa;
+      border-left: 3px solid #6a1b9a;
+    }
+    
+   
+    .fc-day-today {
+      background-color: #e3f2fd !important;
+    }
+    
+    /* Event Modal */
+    .event-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .close-modal {
+      float: right;
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+    
+    /* Legend */
+    .calendar-legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.9em;
+    }
+    
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+      margin-right: 5px;
+    }
+    
+    /* Countdown Banner */
+    .countdown-banner {
+      background: #0073e6;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+    
+    .countdown-item {
+      margin: 5px 10px;
+    }
+    
+    .countdown-value {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .fc-toolbar {
+        flex-direction: column;
+      }
+      
+      .fc-toolbar-chunk {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <script type="module">
+        import Auth from './auth.js';
+        if (!Auth.isAuthenticated()) {
+          Auth.requireAuth(); // Will redirect to login
+        }
+      </script>
+
+  <div class="wrapper">
+    <header>
+      <h1>Academic Calendar</h1>
+      <nav>
+        <ul>
+          <li><a href="./home.html">Home</a></li>
+          <li><a href="./courses.html">Courses</a></li>
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./progress.html">Progress Report</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="./login.html" id="login-btn">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="calendar-section">
+        <h2>Academic Calendar</h2>
+        <p>Stay updated with upcoming classes, exams, and deadlines.</p>
+        
+        <!-- Countdown Banner -->
+        <div class="countdown-banner">
+          <div class="countdown-item">
+            <div class="countdown-value" id="days-exam">0</div>
+            <div>Days to Next Exam</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="days-quiz">0</div>
+            <div>Days to Next Quiz</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="days-deadline">0</div>
+            <div>Days to Next Deadline</div>
+          </div>
+        </div>
+        
+        <div id="calendar-container">
+          <div id="calendar"></div>
+          
+          <!-- Calendar Legend -->
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #e53935;"></div>
+              <span>Exams</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #43a047;"></div>
+              <span>Quizzes</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #1e88e5;"></div>
+              <span>Classes</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #fb8c00;"></div>
+              <span>Holidays</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #8e24aa;"></div>
+              <span>Deadlines</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Event Modal -->
+    <div class="event-modal" id="eventModal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="modalTitle">Event Title</h3>
+        <div class="modal-body">
+          <p><i class="fas fa-calendar-day"></i> <span id="modalDate"></span></p>
+          <p><i class="fas fa-clock"></i> <span id="modalTime"></span></p>
+          <p><i class="fas fa-tag"></i> <span id="modalType"></span></p>
+          <div id="modalDescription"></div>
+          <button id="editEvent" class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button id="deleteEvent" class="delete-btn"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 EduLearn. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- FullCalendar JS -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM Elements
+      const calendarEl = document.getElementById('calendar');
+      const eventModal = document.getElementById('eventModal');
+      const closeModal = document.querySelector('.close-modal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDate = document.getElementById('modalDate');
+      const modalTime = document.getElementById('modalTime');
+      const modalType = document.getElementById('modalType');
+      const modalDescription = document.getElementById('modalDescription');
+      const editBtn = document.getElementById('editEvent');
+      const deleteBtn = document.getElementById('deleteEvent');
+      
+      // Sample Academic Events Data
+      const academicEvents = [
+        {
+          id: '1',
+          title: 'Math Midterm Exam',
+          start: '2025-04-08T09:00:00',
+          end: '2025-04-08T11:00:00',
+          description: 'Covering chapters 1-5. Bring calculator and ID.',
+          type: 'exam',
+          className: 'event-exam'
+        },
+        {
+          id: '2',
+          title: 'Physics Quiz',
+          start: '2025-04-15T10:30:00',
+          end: '2025-04-15T11:30:00',
+          description: 'Quantum mechanics basics',
+          type: 'quiz',
+          className: 'event-quiz'
+        },
+        {
+          id: '3',
+          title: 'Spring Break',
+          start: '2025-04-20',
+          end: '2025-04-24',
+          description: 'No classes this week',
+          type: 'holiday',
+          className: 'event-holiday'
+        },
+        {
+          id: '4',
+          title: 'Programming Assignment Due',
+          start: '2025-04-28T23:59:00',
+          description: 'Submit final project on GitHub',
+          type: 'deadline',
+          className: 'event-deadline'
+        },
+        {
+          id: '5',
+          title: 'Chemistry Lab',
+          start: '2025-04-10T14:00:00',
+          end: '2025-04-10T16:00:00',
+          description: 'Experiment 3: Chemical Reactions',
+          type: 'class',
+          className: 'event-class'
+        }
+      ];
+      
+      // Initialize Calendar
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,listWeek'
+        },
+        firstDay: 1, // Start week on Monday
+        editable: true,
+        selectable: true,
+        dayMaxEvents: true,
+        events: academicEvents,
+        eventClick: function(info) {
+          openEventModal(info.event);
+        },
+        dateClick: function(info) {
+          createNewEvent(info.date, info.allDay);
+        },
+        eventDrop: function(info) {
+          updateEventDates(info.event);
+        },
+        eventResize: function(info) {
+          updateEventDates(info.event);
+        }
+      });
+      
+      calendar.render();
+      updateCountdowns();
+      
+      // Modal Functions
+      function openEventModal(event) {
+        modalTitle.textContent = event.title;
+        
+        // Format date
+        const startDate = event.start ? new Date(event.start) : null;
+        const endDate = event.end ? new Date(event.end) : null;
+        
+        if (startDate) {
+          modalDate.textContent = startDate.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+          
+          if (event.allDay) {
+            modalTime.textContent = 'All day';
+          } else {
+            modalTime.textContent = startDate.toLocaleTimeString('en-US', { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            });
+            
+            if (endDate) {
+              modalTime.textContent += ' - ' + endDate.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              });
+            }
+          }
+        }
+        
+        // Set event type
+        const typeMap = {
+          'exam': 'Exam',
+          'quiz': 'Quiz',
+          'class': 'Class',
+          'holiday': 'Holiday',
+          'deadline': 'Deadline'
+        };
+        modalType.textContent = typeMap[event.extendedProps.type] || 'Event';
+        
+        // Set description
+        modalDescription.innerHTML = event.extendedProps.description || 
+          '<em>No additional details provided.</em>';
+        
+        // Set edit/delete handlers
+        editBtn.onclick = function() {
+          editEvent(event);
+          eventModal.style.display = 'none';
+        };
+        
+        deleteBtn.onclick = function() {
+          if (confirm('Are you sure you want to delete this event?')) {
+            event.remove();
+            eventModal.style.display = 'none';
+            updateCountdowns();
+          }
+        };
+        
+        eventModal.style.display = 'flex';
+      }
+      
+      closeModal.onclick = function() {
+        eventModal.style.display = 'none';
+      };
+      
+      window.onclick = function(event) {
+        if (event.target == eventModal) {
+          eventModal.style.display = 'none';
+        }
+      };
+      
+      // Event Creation/Editing
+      function createNewEvent(date, allDay) {
+        const title = prompt('Enter event title:');
+        if (!title) return;
+        
+        const type = prompt('Enter event type (exam, quiz, class, holiday, deadline):');
+        if (!type) return;
+        
+        const description = prompt('Enter event description (optional):');
+        
+        const className = 'event-' + type;
+        
+        calendar.addEvent({
+          title: title,
+          start: date,
+          allDay: allDay,
+          description: description,
+          type: type,
+          className: className
+        });
+        
+        updateCountdowns();
+      }
+      
+      function editEvent(event) {
+        const newTitle = prompt('Edit event title:', event.title);
+        if (newTitle !== null) event.setProp('title', newTitle);
+        
+        const newType = prompt('Edit event type (exam, quiz, class, holiday, deadline):', 
+                             event.extendedProps.type);
+        if (newType !== null) {
+          event.setExtendedProp('type', newType);
+          event.setProp('classNames', ['event-' + newType]);
+        }
+        
+        const newDesc = prompt('Edit event description:', event.extendedProps.description || '');
+        if (newDesc !== null) event.setExtendedProp('description', newDesc);
+        
+        updateCountdowns();
+      }
+      
+      function updateEventDates(event) {
+        console.log('Event dates updated:', event.title, event.start, event.end);
+        // Here you would typically save to a database
+        updateCountdowns();
+      }
+      
+      // Countdown Functionality
+      function updateCountdowns() {
+        const now = new Date();
+        const events = calendar.getEvents();
+        
+        // Find nearest events of each type
+        const nextExam = findNextEvent(events, 'exam', now);
+        const nextQuiz = findNextEvent(events, 'quiz', now);
+        const nextDeadline = findNextEvent(events, 'deadline', now);
+        
+        // Update countdown displays
+        document.getElementById('days-exam').textContent = 
+          nextExam ? Math.ceil((nextExam.start - now) / (1000 * 60 * 60 * 24)) : '-';
+        document.getElementById('days-quiz').textContent = 
+          nextQuiz ? Math.ceil((nextQuiz.start - now) / (1000 * 60 * 60 * 24)) : '-';
+        document.getElementById('days-deadline').textContent = 
+          nextDeadline ? Math.ceil((nextDeadline.start - now) / (1000 * 60 * 60 * 24)) : '-';
+      }
+      
+      function findNextEvent(events, type, fromDate) {
+        const futureEvents = events.filter(event => 
+          event.extendedProps.type === type && 
+          event.start > fromDate
+        );
+        
+        if (futureEvents.length === 0) return null;
+        
+        return futureEvents.reduce((nearest, current) => 
+          current.start < nearest.start ? current : nearest
+        );
+      }
+      
+      // Your existing functions
+      document.getElementById('login-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Login functionality will be implemented soon.');
+      });
+      
+      function showCourses() {
+        window.location.href = "courses.html";
+      }
+      
+      function showCalendar() {
+        window.location.href = "calendar.html"; 
+      }
+      
+      // Update countdowns every day
+      setInterval(updateCountdowns, 24 * 60 * 60 * 1000);
+    });
+  </script>
+</body>
+</html>

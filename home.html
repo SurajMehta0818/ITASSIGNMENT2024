@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduLearn - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Sticky Footer Layout */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* Footer Styling */
+    footer {
+      background: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- <script type="module">
+        import Auth from './auth.js';
+        if (!Auth.isAuthenticated()) {
+          Auth.requireAuth(); // Will redirect to login
+        }
+      </script> -->
+
+      <script type="module" src="protect.js"></script>
+      
+  <div class="wrapper">
+    <header>
+      <h1>EduLearn</h1>
+      <nav>
+        <ul>
+          <li><a href="./home.html">Home</a></li>
+          <li><a href="./courses.html">Courses</a></li>
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="progress.html">Progress Report</a>></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html">Login</a>></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home">
+        <img src="Education.jpg" alt="Education Banner" class="banner" />
+        <h2>Learn from the Best</h2>
+        <p>Join thousands of students in advancing their knowledge with expert-led courses.</p>
+        <button onclick="window.location.href='courses.html'">Browse Courses</button>
+      </section>
+      
+    </main>
+
+    <footer>
+      <p>&copy; 2025 EduLearn. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

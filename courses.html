@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn - Courses</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <script type="module">
+        import Auth from './auth.js';
+        if (!Auth.isAuthenticated()) {
+          Auth.requireAuth(); // Will redirect to login
+        }
+      </script>
+
+      
+    <header>
+        <h1>Courses We Provide</h1>
+        <nav>
+            <ul>
+                <li><a href="./home.html">Home</a></li>
+                <li><a href="./courses.html">Courses</a></li>
+                <li><a href="./calendar.html">Calendar</a></li>
+                <li><a href="./progress.html">Progress Report</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="./login.html" id="login-btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="courses">
+        <h2>Our Courses</h2>
+        <div class="course-list">
+            <div class="course">
+                <img src="Maths.jpg" alt="Mathematics Course">
+                <h3>Mathematics</h3>
+                <p>Master Algebra, Calculus, and more.</p>
+            </div>
+            
+            <div class="course">
+                <img src="Science.jpg" alt="Science Course">
+                <h3>Science</h3>
+                <p>Explore Physics, Chemistry, and Biology.</p>
+            </div>
+            
+            <div class="course">
+                <img src="Programming.jpg" alt="Programming Course">
+                <h3>Programming</h3>
+                <p>Learn Python, JavaScript, and Web Development.</p>
+            </div>
+
+            <div class="course">
+                <img src="Social.png" alt="Social Studies">
+                <h3>Social Studies</h3>
+                <p>Explore the world through out the your book.</p>
+            </div>
+
+            <div class="course">
+                <img src="Sex Education.webp" alt="Sex Education">
+                <h3>Sex Education</h3>
+                <p>Sex education encompasses a range of topics related to sexual health, relationships, and development.</p>
+            </div>
+
+            
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 EduLearn. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

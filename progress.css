@@ -1,0 +1,123 @@
+/* Progress Report Styles */
+.progress-section {
+    padding: 30px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.progress-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.progress-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.summary-card {
+    flex: 1;
+    min-width: 200px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.summary-card h3 {
+    color: #495057;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.summary-value {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #0073e6;
+}
+
+.progress-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.chart-container {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.chart-container h3 {
+    margin-bottom: 15px;
+    color: #343a40;
+    text-align: center;
+}
+
+.assessments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.assessments-table th {
+    background: #0073e6;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.assessments-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.assessments-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.assessments-table tr:hover {
+    background-color: #e9ecef;
+}
+
+.status-completed {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .progress-charts {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-summary {
+        flex-direction: column;
+    }
+    
+    .summary-card {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .assessments-table {
+        display: block;
+        overflow-x: auto;
+    }
+}

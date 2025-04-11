@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn - About</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>About Us</h1>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="progress.html">Progress Report</a></li>
+                    <li><a class="active" href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html" id="login-btn">Login</a></li>
+                    <a href="newwindow.html" target="_blank">Open in a new window</a>
+
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="about-section">
+                <h2>About EduLearn</h2>
+                <div class="about-content">
+                    <div class="mission">
+                        <h3>Our Mission</h3>
+                        <p>To provide accessible, high-quality education through innovative technology and personalized learning experiences.</p>
+                    </div>
+                    
+                    <div class="team">
+                        <h3>Our Team</h3>
+                        <div class="team-members">
+                            <div class="member">
+                                <img src="Founder.jpg" alt="Dr. Sarah Johnson">
+                                <h4>Mr. SanjanSuraj</h4>
+                                <p>Founder</p>
+                            </div>
+                            <div class="member">
+                                <img src="Team.jpg" alt="Dr. Sarah Johnson">
+                                <h4>Ms. Sarah Johnson</h4>
+                                <p>Secretary</p>
+                            </div>
+                            <div class="member">
+                                <img src="Team2.jpg" alt="Mark Chen">
+                                <h4>Dr. Mark Chen</h4>
+                                <p>Technology Director</p>
+                            </div>
+                            <div class="member">
+                                <img src="Team3.jpeg" alt="Mark Chen">
+                                <h4>Ms. Sai Pallavi</h4>
+                                <p>Treasurer</p>
+                            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <h3>By The Numbers</h3>
+                        <div class="stat-cards">
+                            <div class="card">
+                                <span class="number">5,000+</span>
+                                <span class="label">Students</span>
+                            </div>
+                            <div class="card">
+                                <span class="number">50+</span>
+                                <span class="label">Courses</span>
+                            </div>
+                            <div class="card">
+                                <span class="number">98%</span>
+                                <span class="label">Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 EduLearn. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Add before closing </body> tag -->
+<script src="auth.js"></script>
+<script src="about.js"></script>
+    <script>
+        // Update active nav link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('active');
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
